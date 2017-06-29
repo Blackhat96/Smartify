@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Smartify</string>
+    <string name="help">Have you ever kept your phone in silent mode and forgot where it is, and you dont have Internet turned On??
+        Then this is the best app for you.
+    </string>
+    <string name="banner_ad_unit_id">ca-app-pub-7383233719473844/7659824410</string>
+    <string name="use">Store a backup phone number and select different features which you want to control remotely.
+        So whenever you want to toggle your wifi or forgot where you have kept your phone, Just give a missed call
+        from the backup number stored. The Phone will start ringing even if it is in silent mode or toggles your phone Wifi, so that you can
+        search it using Google device manager.
+    </string>
+    <string name="permission">Enable</string>
+    <string name="f1"> \u2022 Save multiple backup numbers.</string>
+    <string name="f2"> \u2022 Dark Theme Added.</string>
+    <string name="f6"> \u2022 Ad free version.</string>
+    <string name="f3"> \u2022 Switch to General mode without ringing Phone.</string>
+    <string name="f4">\u2022 Get Technical Support.</string>
+    <string name="f5">\u2022 Security feature added.</string>
+    <string name="f7"> \u2022 Get Future updates for free.</string>
+    <string name="msg">Need Permission for app to work properly.</string>
+    <string name="notice">In order for app to work properly it has to be allowed to run in background.</string>
+    <string name="oppo"> Open Oppo Security Center app.\nSelect Permissions Management.\nSelect Auto-run management.
+        \nAuto Run Management.\nWhitelist Smartify.\n</string>
+    <string name="lenovo">Open Settings.\nSelect Power Manager.\nSelect Background app.\nAllow Smartify to run in background.</string>
+    <string name="asus">Swipe down to open quick settings.\nOpen Auto-Start Manager from the app.\nAllow Smartify to run in background.</string>
+    <string name="vivo">Open iManager application.\nClick on App Manager.\nClick on Auto start manager.\nSelect Smartify from the list.</string>
+    <string name="about">Hi there, Im Abhishek U Bhat Computer science graduate, Indie app
+        developer who is working hard to have a good app portfolio. Introvert. In Love with laptop. That’s all about me.</string>
+</resources>

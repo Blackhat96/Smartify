@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "998858868564",
+    "firebase_url": "https://smartify-9fe37.firebaseio.com",
+    "project_id": "smartify-9fe37",
+    "storage_bucket": "smartify-9fe37.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998858868564:android:edc930c115c416b5",
+        "android_client_info": {
+          "package_name": "app.smartify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "998858868564-v86dhbfbdhva9hf35j0mn6mv98dufshg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuoRvz65hLCghUt1T-8lvGAOnkXzFspNQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Features"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="20sp"
+        android:textStyle="normal|bold" />
+
+    <TextView
+        android:id="@+id/checkedTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/f1"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/checkedTextView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/f2"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/checkedTextView3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/f6"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/checkedTextView4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/f3"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/checkedTextView5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/f4"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/checkedTextView6"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/f5"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/checkedTextView7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/f7"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btn_upg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#4caf50"
+        android:text="Upgrade" />
+
+</LinearLayout>
