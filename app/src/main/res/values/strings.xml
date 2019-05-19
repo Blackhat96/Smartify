@@ -4,11 +4,13 @@
         Then this is the best app for you.
     </string>
     <string name="banner_ad_unit_id">ca-app-pub-7383233719473844/7659824410</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-7383233719473844/1325138665</string>
     <string name="use">Store a backup phone number and select different features which you want to control remotely.
         So whenever you want to toggle your wifi or forgot where you have kept your phone, Just give a missed call
         from the backup number stored. The Phone will start ringing even if it is in silent mode or toggles your phone Wifi, so that you can
         search it using Google device manager.
     </string>
+    <string name="admob_app_id">ca-app-pub-7383233719473844~6183091215</string>
     <string name="permission">Enable</string>
     <string name="f1"> \u2022 Save multiple backup numbers.</string>
     <string name="f2"> \u2022 Dark Theme Added.</string>

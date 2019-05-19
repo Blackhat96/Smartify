@@ -24,7 +24,7 @@ public class AboutDev extends AppCompatActivity {
         Uri uri = Uri.parse("market://details?id=app.smartifyPro");
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
 
-        final FrameLayout flHolder = (FrameLayout) this.findViewById(R.id.aboutA);
+        final FrameLayout flHolder = this.findViewById(R.id.aboutA);
         String url = "http://play.google.com/store/apps/details?id=" + this.getPackageName();
         flHolder.addView(
                 AboutBuilder.with(this)
@@ -43,12 +43,13 @@ public class AboutDev extends AppCompatActivity {
                         .addTwitterLink("Blackhat_96")
                         .addInstagramLink("abhishek.ubhat/")
                         .addGooglePlusLink("115614625101193369027")
-                        .addLinkedinLink("abhishek-bhat-a49558126")
+                        //.addLinkedinLink("abhishek-bhat-a49558126")
                         .addEmailLink("theloneintrovert@gmail.com")
                         .addWhatsappLink("Abhishek U Bhat", "+918197006829")
                         .addFiveStarsAction()
+                        .addPrivacyPolicyAction("https://github.com/Blackhat96/Smartify/blob/master/privacy_policy_smartify.md#privacy-policy")
                         .addMoreFromMeAction("Abhishek U Bhat")
-                        .setVersionAsAppTitle()
+                        //.setVersionAsAppTitle()
                         .addShareAction("Check out this new App ", url)
                         .setActionsColumnsCount(2)
                         .addFeedbackAction("theloneintrovert@gmail.com")

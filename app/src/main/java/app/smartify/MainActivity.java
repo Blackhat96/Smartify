@@ -1,6 +1,7 @@
 package app.smartify;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -22,6 +23,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,40 +35,28 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.rm.rmswitch.RMSwitch;
-import com.startapp.android.publish.ads.splash.SplashConfig;
-import com.startapp.android.publish.adsCommon.AutoInterstitialPreferences;
-import com.startapp.android.publish.adsCommon.StartAppAd;
-import com.startapp.android.publish.adsCommon.StartAppSDK;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends RuntimePermission {
-    private SharedPreferences sp;
-    private boolean isAppInstalled = false;
     private final List<Adapter> List = new ArrayList<>();
     private ListAdapter mAdapter;
     private SharedPreferences.Editor editor;
     private static final int REQUEST_PERMISSION = 10;
-   // private final static int PERM_REQUEST_CODE_DRAW_OVERLAYS = 1;
+    InterstitialAd mInterstitialAd;
+    // private final static int PERM_REQUEST_CODE_DRAW_OVERLAYS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        StartAppSDK.init(this, "201842339", true);
-        StartAppAd.showSplash(this, savedInstanceState,
-                new SplashConfig()
-                        .setTheme(SplashConfig.Theme.ASHEN_SKY)
-                        .setAppName("Smartify")
-                        .setLogo(R.drawable.smartify)   // resource ID
-                        .setOrientation(SplashConfig.Orientation.PORTRAIT)
-        );
 
 
         if (!getPackageName().equals("app.smartify")) {
@@ -75,27 +65,58 @@ public class MainActivity extends RuntimePermission {
         }
 
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-7383233719473844~6183091215");
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        StartAppAd.setAutoInterstitialPreferences(
-                new AutoInterstitialPreferences()
-                        .setActivitiesBetweenAds(3)
-        );
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
 
-        StartAppAd.enableAutoInterstitial();
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when the ad is displayed.
+
+            }
+
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the interstitial ad is closed.
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                Log.e("ads", "Closed");
+            }
+        });
 
         if (!getPackageName().equals("app.smartify")) {
             Toast.makeText(this, "Please respect developer's effort and use original app", Toast.LENGTH_SHORT).show();
             finish();
         }
 
-
+        mInterstitialAd.show();
         final SharedPreferences settings = this.getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        sp = getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences("Settings", Context.MODE_PRIVATE);
         editor = sp.edit();
-        isAppInstalled = sp.getBoolean("isAppInstalled", false);
+        boolean isAppInstalled = sp.getBoolean("isAppInstalled", false);
 
         if (!isAppInstalled) {
             editor.putBoolean("isAppInstalled", true);
@@ -117,12 +138,14 @@ public class MainActivity extends RuntimePermission {
 
 
             new Handler().postDelayed(new Runnable() {
+                @SuppressLint("BatteryLife")
                 @Override
                 public void run() {
                     Intent intent = new Intent();
                     String packageName = MainActivity.this.getPackageName();
                     PowerManager pm = (PowerManager) MainActivity.this.getSystemService(Context.POWER_SERVICE);
                     if (Build.VERSION.SDK_INT >= 23) {
+                        assert pm != null;
                         if (pm.isIgnoringBatteryOptimizations(packageName))
                             intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
                         else {
@@ -161,13 +184,24 @@ public class MainActivity extends RuntimePermission {
         }
 
 
-        Boolean wifi = settings.getBoolean("wifi", false);
-        Boolean ring = settings.getBoolean("ring", false);
+        boolean wifi = settings.getBoolean("wifi", false);
+        boolean ring = settings.getBoolean("ring", false);
 
         RMSwitch S_wifi, S_ring;
 
-        S_wifi = (RMSwitch) findViewById(R.id.s_wifi);
+        S_wifi = findViewById(R.id.s_wifi);
         S_wifi.setChecked(wifi);
+
+        S_wifi.setChecked(false);
+        S_wifi.setEnabled(true);
+        S_wifi.setForceAspectRatio(false);
+        S_wifi.setSwitchBkgCheckedColor(Color.YELLOW);
+        S_wifi.setSwitchBkgNotCheckedColor(Color.LTGRAY);
+        S_wifi.setSwitchToggleCheckedColor(Color.YELLOW);
+        S_wifi.setSwitchToggleNotCheckedColor(Color.LTGRAY);
+        S_wifi.setSwitchToggleCheckedDrawableRes(R.drawable.wifi);
+        S_wifi.setSwitchToggleNotCheckedDrawableRes(R.drawable.wifioff);
+
         S_wifi.addSwitchObserver(new RMSwitch.RMSwitchObserver() {
             @Override
             public void onCheckStateChange(RMSwitch switchView, boolean isChecked) {
@@ -176,8 +210,17 @@ public class MainActivity extends RuntimePermission {
             }
         });
 
-        S_ring = (RMSwitch) findViewById(R.id.s_ring);
+        S_ring = findViewById(R.id.s_ring);
         S_ring.setChecked(ring);
+        S_ring.setChecked(false);
+        S_ring.setEnabled(true);
+        S_ring.setForceAspectRatio(false);
+        S_ring.setSwitchBkgCheckedColor(Color.YELLOW);
+        S_ring.setSwitchBkgNotCheckedColor(Color.LTGRAY);
+        S_ring.setSwitchToggleCheckedColor(Color.YELLOW);
+        S_ring.setSwitchToggleNotCheckedColor(Color.LTGRAY);
+        S_ring.setSwitchToggleCheckedDrawableRes(R.drawable.startring);
+        S_ring.setSwitchToggleNotCheckedDrawableRes(R.drawable.stopring);
         S_ring.addSwitchObserver(new RMSwitch.RMSwitchObserver() {
             @Override
             public void onCheckStateChange(RMSwitch switchView, boolean isChecked) {
@@ -186,7 +229,7 @@ public class MainActivity extends RuntimePermission {
             }
         });
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
         mAdapter = new ListAdapter(List);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -206,12 +249,13 @@ public class MainActivity extends RuntimePermission {
                 switch (position) {
                     case 0:
                         Intent i = new Intent(getBaseContext(), Help.class);
+                        mInterstitialAd.show();
                         startActivity(i);
                         break;
                     case 1:
                         webViewDialog.setContentView(R.layout.upgrade);
                         webViewDialog.show();
-                        Button btnUpg = (Button) webViewDialog.findViewById(R.id.btn_upg);
+                        Button btnUpg = webViewDialog.findViewById(R.id.btn_upg);
                         btnUpg.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -236,6 +280,7 @@ public class MainActivity extends RuntimePermission {
                         new Extras().rate(view.getContext());
                         break;
                     case 4:
+                        mInterstitialAd.show();
                         Intent about = new Intent(getBaseContext(), AboutDev.class);
                         startActivity(about);
                 }
@@ -246,7 +291,7 @@ public class MainActivity extends RuntimePermission {
             }
 
         }));
-        prepareMovieData();
+        prepareRecyclerView();
     }
 
 
@@ -263,6 +308,7 @@ public class MainActivity extends RuntimePermission {
         }
     }*/
 
+
     @Override
     public void onPermissionsGranted(int requestCode) {
         Snackbar SB = Snackbar.make(findViewById(android.R.id.content), "Permission Granted", Snackbar.LENGTH_LONG);
@@ -270,6 +316,12 @@ public class MainActivity extends RuntimePermission {
         SB.setActionTextColor(Color.BLACK);
         group.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.skyblue));
         SB.show();
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        mInterstitialAd.loadAd(adRequest);
     }
 
     @Override
@@ -280,13 +332,14 @@ public class MainActivity extends RuntimePermission {
 
     @Override
     public void onBackPressed() {
-        StartAppAd.onBackPressed(this);
+        mInterstitialAd.show();
         finish();
+
     }
 
     @Override
     protected void onDestroy() {
-        StartAppAd.onBackPressed(this);
+        mInterstitialAd.show();
         super.onDestroy();
 
     }
@@ -298,7 +351,7 @@ public class MainActivity extends RuntimePermission {
         webViewDialog.setCancelable(true);
         webViewDialog.setContentView(R.layout.activity_splash);
         webViewDialog.show();
-        TextView btnClose = (TextView) webViewDialog.findViewById(R.id.ok);
+        TextView btnClose = webViewDialog.findViewById(R.id.ok);
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -316,6 +369,10 @@ public class MainActivity extends RuntimePermission {
             case R.id.help:
                 AutoStart(this);
                 break;
+            case R.id.privacy_policy:
+                Intent privacyPolicy = new Intent(MainActivity.this, PrivacyPolicy.class);
+                startActivity(privacyPolicy);
+                break;
         }
         return true;
     }
@@ -332,7 +389,7 @@ public class MainActivity extends RuntimePermission {
             showHelp();
     }
 
-    private void prepareMovieData() {
+    private void prepareRecyclerView() {
         Adapter list = new Adapter("Why Smartify", "How to use this app", 0);
         List.add(list);
 
@@ -351,12 +408,13 @@ public class MainActivity extends RuntimePermission {
         mAdapter.notifyDataSetChanged();
     }
 
+    @SuppressLint("InflateParams")
     private void showInputDialog(final Context context) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View promptView;
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         promptView = layoutInflater.inflate(R.layout.input_dialog, null);
-        final EditText editText = (EditText) promptView.findViewById(R.id.edittext);
+        final EditText editText = promptView.findViewById(R.id.edittext);
 
         alertDialogBuilder.setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {

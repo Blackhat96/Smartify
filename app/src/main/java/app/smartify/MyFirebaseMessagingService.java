@@ -19,6 +19,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         RemoteMessage.Notification notification = remoteMessage.getNotification();
+        assert notification != null;
         ShowNotification(notification);
     }
 
@@ -45,6 +46,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationBuilder.setLights(Color.YELLOW, 1000, 300);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        assert notificationManager != null;
         notificationManager.notify(0, notificationBuilder.build());
     }
 }

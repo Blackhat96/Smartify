@@ -11,7 +11,7 @@ class Adapter {
         this.img=img;
      }
 
-    public String getTitle() {
+    String getTitle() {
         return title;
     }
 
